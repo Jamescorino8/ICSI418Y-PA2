@@ -18,6 +18,46 @@ app.get("/", (req, res) => {
     });
 });
 
+const db = client.db("pa2");
+const users = db.collection("users");
+
+app.post("/signup", async (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({
+            message: "Required information is missing"
+        });
+    }
+
+    try {
+        const result = await users.findOne({
+            username: username
+        });
+
+        if (result !== null) {
+            return res.status(409).json({
+                message: "Username already exists"
+            });
+        }
+
+        await users.insertOne({
+            username: username,
+            password: password
+        });
+
+        res.status(201).json({
+            message: "User created successfully"
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+});
+
 app.listen(9000, () => {
     console.log("Server running on port 9000");
 });
