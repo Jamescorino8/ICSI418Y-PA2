@@ -58,6 +58,45 @@ app.post("/signup", async (req, res) => {
     }
 });
 
+app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    // check required fields before using the database; return 400 if either is missing
+    if (!username || !password) {
+        return res.status(400).json({
+            message: "Required information is missing"
+        });
+    }
+
+    try {
+        // search for user
+        const user = await users.findOne({
+            username: username
+        });
+
+        // return stops the route here so it doesn't read user.password on null
+        if (user === null) {
+            return res.status(401).json({
+                message: "User not found"
+            });
+        }
+        // return stops the route here so it doesn't also send the 200 below
+        if (user.password !== password) {
+            return res.status(401).json({
+                message: "Invalid login credentials"
+            });
+        }
+        res.status(200).json({ message: "Login successful" })
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+});
+
 app.listen(9000, () => {
     console.log("Server running on port 9000");
 });
