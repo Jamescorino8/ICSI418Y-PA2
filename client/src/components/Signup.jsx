@@ -19,6 +19,8 @@ function Signup() {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
+                        f_name: firstName,
+                        l_name: lastName,
                         username: username,
                         password: password
                     })
