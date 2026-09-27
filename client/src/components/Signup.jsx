@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 function Signup() {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [message, setMessage] = useState("");
     const [password, setPassword] = useState("");
@@ -38,11 +40,25 @@ function Signup() {
             <h2>Sign Up</h2>
             <form onSubmit={handleSubmit}>
                 <input
+                    placeholder="First Name"
+                    type="text"
+                    value={firstName}
+                    onChange={(event) => setFirstName(event.target.value)}
+                />
+                <input
+                    placeholder="Last Name"
+                    type="text"
+                    value={lastName}
+                    onChange={(event) => setLastName(event.target.value)}
+                />
+                <input
+                    placeholder="Username"
                     type="text"
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
                 />
                 <input
+                    placeholder="Password"
                     type="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}

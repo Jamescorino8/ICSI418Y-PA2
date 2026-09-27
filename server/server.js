@@ -22,9 +22,9 @@ const db = client.db("pa2");
 const users = db.collection("users");
 
 app.post("/signup", async (req, res) => {
-    const { username, password } = req.body;
+    const { f_name, l_name, username, password } = req.body;
 
-    if (!username || !password) {
+    if (!f_name || !l_name || !username || !password) {
         return res.status(400).json({
             message: "Required information is missing"
         });
@@ -42,6 +42,8 @@ app.post("/signup", async (req, res) => {
         }
 
         await users.insertOne({
+            f_name: f_name,
+            l_name: l_name,
             username: username,
             password: password
         });
